@@ -6,7 +6,7 @@ const (
 	CONST_CRICUIT string = "L7_JSON"
 	CONST_DOMAIN string = "L7_DOMAIN"
 	CONST_IS_HTTP string = "IS_HTTP"
-	ENVOY_INIT_CONF_PATH string = "/tmp"
+	ENVOY_INIT_CONF_PATH string = "/etc"
 	ENVOY_RUN_CONF_PATH string = "/opt"
 	ENVOY_BIN string = "/usr/local/bin/envoy"
 	READ_TIME_OUT int = 60
