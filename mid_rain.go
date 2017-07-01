@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "midrain.app/midoptions"
 	"github.com/Gemrails/midRainApp/midoptions"
 )
 
