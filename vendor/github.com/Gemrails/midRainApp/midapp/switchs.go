@@ -19,7 +19,6 @@ func (eas *EnvArgs)Start(wm *midconst.WorkModel){
 	if StartModelService(clientset, eas, wm){
 		StartEv(wm)
 	}
-
 }
 
 func (eas *EnvArgs)Run(wm *midconst.WorkModel){

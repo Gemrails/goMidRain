@@ -272,11 +272,13 @@ func httpGet(c chan string) {
 
 func StartEv(model *midconst.WorkModel){
 	if model.Model == 1{
-		cmd := exec.Command(midconst.ENVOY_BIN, "-c", midconst.ENVOY_INIT_CONF_PATH+"/envoy_main.json", "&")
-		_, err := cmd.Output()
+		cmd := exec.Command(midconst.ENVOY_BIN, "-c", midconst.ENVOY_INIT_CONF_PATH+"/envoy_main.json")
+		err := cmd.Start()
 		if err != nil {
+			fmt.Println(err)
 			fmt.Println("Start failed.")
 		}
+		fmt.Println("starting...")
 	}else if model.Model == 2{
 		c := make(chan string)
 		go httpGet(c)
@@ -286,12 +288,12 @@ func StartEv(model *midconst.WorkModel){
 			"--restart-epoch",
 			restart_epoch,
 			"--parent-shutdown-time-s",
-			"1",
-			"&")
-		_, err := cmd.Output()
+			"1")
+		err := cmd.Start()
 		if err != nil {
 			fmt.Println("Restart failed.")
 		}
+		fmt.Println("restarting...")
 	}
 }
 
@@ -334,5 +336,3 @@ func RunningModelService(clientset *kubernetes.Clientset, eas *EnvArgs, model *m
 	}
 	return true
 }
-
-
