@@ -8,9 +8,9 @@ golang for envoy
   
 2. Build use docker container `golang:1.7.3`
 
-    cd goMidRain
+        cd goMidRain
         
-    docker run -it --rm -v $PWD:/mnt -w /mnt golang:1.7-alpine bash
+        docker run -it --rm -v $PWD:/mnt -w /mnt golang:1.7-alpine bash
   
 ## Usage
 1. Start model
