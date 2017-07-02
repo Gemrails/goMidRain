@@ -258,12 +258,12 @@ func writeConfig(jsonac []byte, model *midconst.WorkModel) bool{
 func httpGet(c chan string) {
 	resp, err := http.Get(midconst.Infourl)
 	if err != nil {
-		c <- 2
+		c <- "2"
 	}else{
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			c <- 2
+			c <- "2"
 		}else{
 			restart_epoch, _ := strconv.Atoi(strings.Split(string(body), " ")[5])
 			c <- string(restart_epoch + 1)
