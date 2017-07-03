@@ -254,7 +254,7 @@ func writeConfig(jsonac []byte, model *midconst.WorkModel) bool{
 
 func StartEv(model *midconst.WorkModel){
 	if model.Model == 1{
-		os.Setenv("EPOCH", 0)
+		os.Setenv("EPOCH", "0")
 		fmt.Println("ENVEPOCH")
 		fmt.Println(os.Getenv("EPOCH"))
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c", midconst.ENVOY_INIT_CONF_PATH+"/envoy_main.json")
@@ -268,16 +268,17 @@ func StartEv(model *midconst.WorkModel){
 		var newepoch int
 		epoch := os.Getenv("EPOCH")
 		if epoch != ""{
-			newepoch = strconv.Atoi(epoch) + 1
+			int_epoch, _ := strconv.Atoi(epoch)
+			newepoch = int_epoch + 1
 		}else{
 			newepoch = 0
 		}
-		os.Setenv("EPOCH", newepoch)
+		os.Setenv("EPOCH", string(newepoch))
 		fmt.Println(os.Getenv("EPOCH"))
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c",
 			midconst.ENVOY_RUN_CONF_PATH+"/envoy_main.json",
 			"--restart-epoch",
-			newepoch,
+			string(newepoch),
 			"--parent-shutdown-time-s",
 			"1")
 		err := cmd.Start()
