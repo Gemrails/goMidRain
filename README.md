@@ -10,7 +10,7 @@ golang for envoy
 
         cd goMidRain
         
-        docker run -it --rm -v $PWD:/mnt -w /mnt golang:1.7-alpine bash
+        docker run -it --rm -v $PWD:/mnt -w /mnt golang:1.7-alpine sh
         
         //in container
         
