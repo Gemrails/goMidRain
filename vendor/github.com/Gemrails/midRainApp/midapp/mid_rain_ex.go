@@ -266,6 +266,7 @@ func httpGet() string {
 			return "1"
 		}else{
 			restart_epoch, _ := strconv.Atoi(strings.Replace(strings.Split(string(body), " ")[5], "\n", "", -1))
+			fmt.Printf("httpget is %s\n", restart_epoch)
 			return string(restart_epoch + 1)
 		}
 	}
