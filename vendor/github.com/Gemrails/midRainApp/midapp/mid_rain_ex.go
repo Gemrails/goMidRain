@@ -321,7 +321,7 @@ func RunningModelService(clientset *kubernetes.Clientset, eas *EnvArgs, model *m
 				fmt.Println("Restart success.")
 				//return true
 			}else{
-				fmt.Println("Restart failed.")
+				fmt.Println("Restart failed..")
 				//return false
 			}
 		}
