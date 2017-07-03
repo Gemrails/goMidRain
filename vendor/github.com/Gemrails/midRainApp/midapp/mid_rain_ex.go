@@ -258,25 +258,22 @@ func writeConfig(jsonac []byte, model *midconst.WorkModel) bool{
 func httpGet() string {
 	resp, err := http.Get(midconst.Infourl)
 	if err != nil {
-		return "1"
+		return "0"
 	}else{
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			return "1"
+			return "0"
 		}else{
 			restart_epoch, _ := strconv.Atoi(strings.Replace(strings.Split(string(body), " ")[5], "\n", "", -1))
-			fmt.Printf("httpget is %s\n", restart_epoch)
-			return string(restart_epoch + 1)
+			str_epoch := fmt.Sprintf("%d", restart_epoch + 1)
+			return str_epoch
 		}
 	}
 }
 
 func StartEv(model *midconst.WorkModel){
 	if model.Model == 1{
-		os.Setenv("EPOCH", "0")
-		fmt.Println("ENVEPOCH")
-		fmt.Println(os.Getenv("EPOCH"))
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c", midconst.ENVOY_INIT_CONF_PATH+"/envoy_main.json")
 		err := cmd.Start()
 		if err != nil {
@@ -286,7 +283,6 @@ func StartEv(model *midconst.WorkModel){
 		fmt.Println("starting...")
 	}else if model.Model == 2{
 		restart_epoch := httpGet()
-		fmt.Printf("epoch is %s\n", restart_epoch)
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c",
 			midconst.ENVOY_RUN_CONF_PATH+"/envoy_main.json",
 			"--restart-epoch",
