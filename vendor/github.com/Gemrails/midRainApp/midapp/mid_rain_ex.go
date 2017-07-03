@@ -17,9 +17,6 @@ import (
 	"flag"
 	"os/signal"
 	"strconv"
-	"net/http"
-	"io/ioutil"
-	"strings"
 )
 
 type ServiceInfo struct {
@@ -255,24 +252,11 @@ func writeConfig(jsonac []byte, model *midconst.WorkModel) bool{
 	return true
 }
 
-func httpGet(c chan string) {
-	resp, err := http.Get(midconst.Infourl)
-	if err != nil {
-		c <- "2"
-	}else{
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			c <- "2"
-		}else{
-			restart_epoch, _ := strconv.Atoi(strings.Split(string(body), " ")[5])
-			c <- string(restart_epoch + 1)
-		}
-	}
-}
-
 func StartEv(model *midconst.WorkModel){
 	if model.Model == 1{
+		os.Setenv("EPOCH", 0)
+		fmt.Println("ENVEPOCH")
+		fmt.Println(os.Getenv("EPOCH"))
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c", midconst.ENVOY_INIT_CONF_PATH+"/envoy_main.json")
 		err := cmd.Start()
 		if err != nil {
@@ -281,13 +265,19 @@ func StartEv(model *midconst.WorkModel){
 		}
 		fmt.Println("starting...")
 	}else if model.Model == 2{
-		c := make(chan string)
-		go httpGet(c)
-		restart_epoch := <- c
+		var newepoch int
+		epoch := os.Getenv("EPOCH")
+		if epoch != ""{
+			newepoch = strconv.Atoi(epoch) + 1
+		}else{
+			newepoch = 0
+		}
+		os.Setenv("EPOCH", newepoch)
+		fmt.Println(os.Getenv("EPOCH"))
 		cmd := exec.Command(midconst.ENVOY_BIN, "-c",
 			midconst.ENVOY_RUN_CONF_PATH+"/envoy_main.json",
 			"--restart-epoch",
-			restart_epoch,
+			newepoch,
 			"--parent-shutdown-time-s",
 			"1")
 		err := cmd.Start()
