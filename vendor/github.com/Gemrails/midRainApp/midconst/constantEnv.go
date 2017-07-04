@@ -14,7 +14,7 @@ const (
 	//API_SERVER_URL string = "http://127.0.0.1:9000"
 	API_SERVER_URL string = "http://test.goodrain.com:8181"
 	STREAMFORMAT string = "tcp://%s:%d"
-	DOWNCONFIG string = "http://down.goodrain.me/kube-proxy.kubeconfig"
+	DOWNCONFIG string = "http://download.goodrain.me/k8s/kube-proxy.kubeconfig"
 	Infourl string = "http://127.0.0.1:65534/server_info"
 )
 
